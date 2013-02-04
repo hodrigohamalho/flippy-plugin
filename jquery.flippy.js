@@ -387,13 +387,17 @@ Feb 11 2012 - v1.0 : First release
 		}catch(err){
 		
 		}
-	
 		if(thecolor.substr(0,4) == "rgb("){
 			thecolor = "#"
 				+toHex(eval(thecolor.substr(4,thecolor.length).split(',')[0]))
 				+toHex(eval(thecolor.substr(3,thecolor.length).split(',')[1]))
 				+toHex(eval(thecolor.substr(3,thecolor.length-4).split(',')[2]))
-		};
+		}else if(thecolor.substr(0,5) == "rgba("){
+      	thecolor = "#"
+				+toHex(eval(thecolor.substr(5,thecolor.length).split(',')[0]))
+				+toHex(eval(thecolor.substr(4,thecolor.length).split(',')[1]))
+				+toHex(eval(thecolor.substr(4,thecolor.length-4).split(',')[2]))
+    };
 		return thecolor;
 	}
 	
