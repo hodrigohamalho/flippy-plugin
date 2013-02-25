@@ -1,6 +1,6 @@
 /*
 
-FLIPPY jQuery plugin (http://guilhemmarty.com/flippy)
+FLIPPY jQuery plugin https://github.com/hodrigohamalho/flippy-plugin.git
 
 @author : Guilhem MARTY (bonjour@guilhemmarty.com)
 
@@ -11,6 +11,8 @@ FLIPPY jQuery plugin (http://guilhemmarty.com/flippy)
 Feb 11 2012 - v1.0.1 : bug fix with IE9
 
 Feb 11 2012 - v1.0 : First release
+
+Feb 04 2013 - V1.0.2 : bug fix with rgba colors
 
 */
 
@@ -176,10 +178,11 @@ Feb 11 2012 - v1.0 : First release
 				refresh_rate:15,
 				duration:300,
 				depth:0.12,
-				color_target:"white",
+				color_target: $(this).css("background-color"),
 				light:60,
 				content:"",
-				direction:"LEFT",
+				direction: "LEFT",
+                flip_back: false,
 				onStart:function(){},
 				onMidway:function(){},
 				onFinish:function(){}
@@ -204,6 +207,7 @@ Feb 11 2012 - v1.0 : First release
 			_Before = opts.onStart;
 			_Midway = opts.onMidway;
 			_After = opts.onFinish;
+            _FlipBack = opts.flip_back;
 			_isIE = $.browser.msie;
 			_isIE9 = ($.browser.version == "9.0");
 			_isIE8 = ($.browser.version == "8.0");
@@ -220,7 +224,12 @@ Feb 11 2012 - v1.0 : First release
 				_H = $this.outerHeight();
 				_Active = true;
 				_Before();
-				
+
+                if (!_FlipBack){
+                    $this.attr("data-faceup-style", $this.attr("style"));
+                }
+
+
 				_Content = (typeof _Content == "object") ? _Content.html() : _Content;
 				_Color = convertColor($this.css("background-color"));
 				$this
@@ -377,6 +386,11 @@ Feb 11 2012 - v1.0 : First release
 				if($this.attr("id") == "flippy_container"){
 					$this.attr("id","");
 				}
+
+            if (_FlipBack){
+                $this.attr("style", $this.attr("data-faceup-style"));
+                $this.removeAttr("data-faceup-style");
+            }
 			_After();
 		}
 	}
